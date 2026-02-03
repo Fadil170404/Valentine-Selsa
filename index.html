@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy Valentine ❤️</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
+  text-align:center;
+}
+.card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  padding:30px 25px;
+  border-radius:20px;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  animation:fadeIn 0.8s ease;
+}
+.hidden{display:none;}
+.photo-wrapper{
+  width:140px;height:140px;
+  margin:0 auto 15px;
+  border-radius:50%;
+  overflow:hidden;
+  border:4px solid rgba(255,255,255,0.6);
+}
+.photo-wrapper img{
+  width:100%;height:100%;
+  object-fit:cover;
+}
+.grid-photos{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:15px;
+}
+.grid-photos img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,0.6);
+}
+h1{font-size:1.9rem;margin-bottom:10px;}
+p{font-size:1rem;margin-bottom:20px;line-height:1.6;}
+button{
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .3s ease;
+}
+button:hover{transform:scale(1.08);}
+.primary{background:#ff4d6d;color:white;}
+.secondary{background:white;color:#ff4d6d;}
+.buttons{display:flex;justify-content:center;gap:15px;}
+
+.heart{position:absolute;bottom:-20px;animation:floatUp linear infinite;}
+
+@keyframes floatUp{
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(-120vh);opacity:0;}
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;}
+}
+
+/* === PUISI WOW SLIDE === */
+.paper{
+  background:#fffdf5;
+  color:#5b3a29;
+  padding:25px 20px;
+  border-radius:12px;
+  box-shadow:inset 0 0 0 2px #e8d8c3, 0 10px 25px rgba(0,0,0,.25);
+  font-family:'Great Vibes',cursive;
+  font-size:1.4rem;
+  line-height:1.8;
+  animation:paperIn 1.2s ease forwards;
+  opacity:0;
+}
+@keyframes paperIn{
+  from{opacity:0;transform:scale(.9) rotate(-2deg);}
+  to{opacity:1;transform:scale(1) rotate(0);}
+}
+
+.icons{
+  font-size:2rem;
+  margin-bottom:10px;
+  animation:floatIcon 3s ease-in-out infinite;
+}
+@keyframes floatIcon{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+
+.glow-btn{
+  margin-top:15px;
+  animation:glow 1.8s infinite alternate;
+}
+@keyframes glow{
+  from{box-shadow:0 0 10px #ff9bb5;}
+  to{box-shadow:0 0 25px #ffd1dc;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- OPENING -->
+<div class="card" id="opening">
+  <h1>👑 My Princess Mimi</h1>
+  <p>
+    Selsa Avliani 🤍<br>
+    This little story is made just for you.
+  </p>
+  <button class="primary" onclick="startStory()">Start Our Story 💖</button>
+</div>
+
+<!-- STORY -->
+<div class="card hidden" id="story">
+  <div id="media"></div>
+  <h1 id="title"></h1>
+  <p id="text"></p>
+
+  <button class="primary" id="nextBtn" onclick="nextSlide()">Next ❤️</button>
+
+  <div class="buttons hidden" id="questionBtns">
+    <button class="primary" onclick="sayYes()">Yes 💖</button>
+    <button class="secondary" id="noBtn">No 🙈</button>
+  </div>
+</div>
+
+<!-- CLOSING -->
+<div class="card hidden" id="closing">
+  <h1>Thank You 🤍</h1>
+  <p>
+    Thank you for being part of my life,<br>
+    and for becoming the one I hold most dear.
+  </p>
+  <p>— Alvaro</p>
+</div>
+
+<audio id="music" loop>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const slides = [
+  {
+    img:'PHOTO_REAL.jpg',
+    title:'Happy Valentine’s Day 💕',
+    text:'This is where my story with you begins.'
+  },
+  {
+    img:'PHOTO_ROBLOX_1.jpg',
+    title:'Our Beginning 🎮',
+    text:'We met in a simple way, but it meant everything.'
+  },
+  {
+    img:'PHOTO_ROBLOX_2.jpg',
+    title:'Growing Feelings 💖',
+    text:'Little by little, you became my safe place.'
+  },
+  {
+    grid:[
+      'GRID1.jpg','GRID2.jpg','GRID3.jpg',
+      'GRID4.jpg','GRID5.jpg','GRID6.jpg'
+    ],
+    title:'Moments I Treasure 🤍',
+    text:'Every little moment with you becomes a memory I want to keep forever.'
+  },
+  {
+    img:'slide4.jpg',
+    title:'One Honest Question ❤️',
+    text:'Do you truly love me, the same way I truly love you?'
+  },
+  {
+    poem:true,
+    title:'For You, Always 🤍',
+    text:`<div class="icons">📷 ✨ 🤍</div>
+    <div class="paper">
+      In every laugh, I find my home,<br>
+      In every silence, I feel your soul.<br><br>
+      If love is a journey, long and true,<br>
+      I’d walk forever, as long as it’s you.
+    </div>`
+  }
+];
+
+let index = 0;
+
+const opening = document.getElementById('opening');
+const story = document.getElementById('story');
+const closing = document.getElementById('closing');
+const media = document.getElementById('media');
+const title = document.getElementById('title');
+const text = document.getElementById('text');
+const nextBtn = document.getElementById('nextBtn');
+const questionBtns = document.getElementById('questionBtns');
+const noBtn = document.getElementById('noBtn');
+const music = document.getElementById('music');
+
+function startStory(){
+  opening.classList.add('hidden');
+  story.classList.remove('hidden');
+  music.play();
+  renderSlide();
+}
+
+function renderSlide(){
+  const s = slides[index];
+  media.innerHTML = '';
+  nextBtn.style.display = 'none';
+  questionBtns.style.display = 'none';
+
+  title.innerText = s.title;
+  text.innerHTML = s.text;
+
+  if(s.poem){
+    nextBtn.style.display='inline-block';
+    nextBtn.classList.add('glow-btn');
+  } 
+  else if(s.grid){
+    const grid=document.createElement('div');
+    grid.className='grid-photos';
+    s.grid.forEach(img=>{
+      const i=document.createElement('img');
+      i.src=img;
+      grid.appendChild(i);
+    });
+    media.appendChild(grid);
+    nextBtn.style.display='inline-block';
+  } 
+  else {
+    const wrap=document.createElement('div');
+    wrap.className='photo-wrapper';
+    const i=document.createElement('img');
+    i.src=s.img;
+    wrap.appendChild(i);
+    media.appendChild(wrap);
+    nextBtn.style.display='inline-block';
+  }
+
+  // QUESTION SLIDE (YES / NO)
+  if(index === slides.length-2){
+    questionBtns.style.display='flex';
+    nextBtn.style.display='none';
+  }
+
+  // LAST SLIDE (PUISI)
+  if(index === slides.length-1){
+    nextBtn.innerText = 'Finish 🤍';
+    nextBtn.style.display = 'inline-block';
+    nextBtn.onclick = ()=>{
+      story.classList.add('hidden');
+      closing.classList.remove('hidden');
+    }
+  }
+}
+
+function nextSlide(){
+  if(index < slides.length-1){
+    index++;
+    renderSlide();
+  }
+}
+
+function sayYes(){
+  // lanjut ke slide puisi terakhir
+  index++;
+  renderSlide();
+}
+
+noBtn.addEventListener('mouseover',()=>{
+  noBtn.style.position='absolute';
+  noBtn.style.left=Math.random()*60+'vw';
+  noBtn.style.top=Math.random()*60+'vh';
+});
+
+setInterval(()=>{
+  const heart=document.createElement('div');
+  heart.className='heart';
+  heart.innerText='❤️';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.animationDuration=(Math.random()*5+5)+'s';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),8000);
+},700);
+</script>
+
+</body>
+</html>
